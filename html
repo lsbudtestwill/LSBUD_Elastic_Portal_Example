@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>LSBUD Member Portal</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Segoe UI, Arial, sans-serif;
+    background:#f4f6f9;
+}
+
+/* HEADER */
+
+.header{
+    background:#003366;
+    color:white;
+    padding:18px 30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    font-size:24px;
+    font-weight:600;
+}
+
+.version{
+    font-size:13px;
+    opacity:0.8;
+}
+
+/* LOGIN */
+
+.login-container{
+    max-width:450px;
+    margin:60px auto;
+    background:white;
+    padding:40px;
+    border-radius:12px;
+    box-shadow:0 4px 20px rgba(0,0,0,0.1);
+}
+
+h1{
+    color:#003366;
+    margin-bottom:20px;
+}
+
+label{
+    display:block;
+    margin-bottom:6px;
+    margin-top:15px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:6px;
+}
+
+.btn{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:6px;
+    background:#009639;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:20px;
+}
+
+.btn:hover{
+    background:#007f30;
+}
+
+.hidden{
+    display:none;
+}
+
+/* DASHBOARD */
+
+.dashboard{
+    display:none;
+}
+
+.dashboard-layout{
+    display:flex;
+    height:calc(100vh - 70px);
+}
+
+.sidebar{
+    width:250px;
+    background:#002147;
+    color:white;
+    padding-top:20px;
+}
+
+.sidebar ul{
+    list-style:none;
+}
+
+.sidebar li{
+    padding:15px 25px;
+    cursor:pointer;
+}
+
+.sidebar li:hover{
+    background:#003366;
+}
+
+.main-content{
+    flex:1;
+    padding:20px;
+}
+
+.card{
+    background:white;
+    border-radius:10px;
+    padding:20px;
+    margin-bottom:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.08);
+}
+
+.card h2{
+    color:#003366;
+    margin-bottom:10px;
+}
+
+.elastic-frame{
+    width:100%;
+    height:650px;
+    border:none;
+    border-radius:10px;
+}
+
+.stat-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+.stat-card{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    text-align:center;
+    box-shadow:0 2px 8px rgba(0,0,0,0.08);
+}
+
+.stat-card h3{
+    color:#003366;
+}
+
+.stat-number{
+    font-size:36px;
+    margin-top:10px;
+    font-weight:bold;
+    color:#009639;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <div class="logo">LSBUD Member Portal</div>
+    <div class="version">Proof of Concept v1.0</div>
+</div>
+
+<!-- LOGIN -->
+
+<div class="login-container" id="loginScreen">
+
+    <h1>Member Login</h1>
+
+    <label>Email Address</label>
+    <input type="email" placeholder="name@company.co.uk">
+
+    <label>Password</label>
+    <input type="password" placeholder="Enter password">
+
+    <button class="btn" onclick="showMFA()">Continue</button>
+
+</div>
+
+<!-- MFA -->
+
+<div class="login-container hidden" id="mfaScreen">
+
+    <h1>Two-Factor Authentication</h1>
+
+    <p>
+        Enter the verification code sent to your authenticator app.
+    </p>
+
+    <label>Verification Code</label>
+    <input id="mfaCode" type="text" maxlength="6" placeholder="123456">
+
+    <button class="btn" onclick="loginPortal()">Verify</button>
+
+</div>
+
+<!-- DASHBOARD -->
+
+<div class="dashboard" id="dashboard">
+
+<div class="dashboard-layout">
+
+<div class="sidebar">
+<ul>
+<li>Dashboard</li>
+<li>Asset Activity</li>
+<li>Reports</li>
+<li>Notifications</li>
+<li>Users</li>
+<li>Settings</li>
+<li>Support</li>
+</ul>
+</div>
+
+<div class="main-content">
+
+<div class="card">
+<h2>Welcome</h2>
+<p>
+This portal provides members with visibility of activity affecting their assets,
+live analytics and operational reporting via Elastic.
+</p>
+</div>
+
+<div class="stat-grid">
+
+<div class="stat-card">
+<h3>Searches Today</h3>
+<div class="stat-number">2,381</div>
+</div>
+
+<div class="stat-card">
+<h3>Excavation Alerts</h3>
+<div class="stat-number">156</div>
+</div>
+
+<div class="stat-card">
+<h3>Active Users</h3>
+<div class="stat-number">74</div>
+</div>
+
+</div>
+
+<div class="card">
+<h2>Asset Activity Dashboard</h2>
+
+<iframe
+class="elastic-frame"
+src="https://www.elastic.co"
+title="Elastic Dashboard">
+</iframe>
+
+</div>
+
+</div>
+
+</ementById('loginScreen').classList.add('hidden');
+    document.getElementById('mfaScreen').classList.remove('hidden');
+}
+
+function loginPortal()
+{
+    const code = document.getElementById('mfaCode').value;
+
+    if(code === "123456")
+    {
+        document.getElementById('mfaScreen').classList.add('hidden');
+        document.getElementById('dashboard').style.display='block';
+    }
+    else
+    {
+        alert("Invalid verification code");
+    }
+}
+
+</script>
+
+</body>
+</html>
